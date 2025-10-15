@@ -1,3 +1,117 @@
 @startuml
+class LoginEntity {
+    -serialVersionUID = 1L: long
+    -user: UserEntity
+    -password: PasswordEntity
+    -active: Boolean  
+}
 
+class RelLoginGroupEntity {
+    -serialVersionUID = 1L: long
+    -login: LoginEntity
+    -group: GroupEntity
+}
+
+class GroupEntity {
+    -serialVersionUID = 1L: long
+    -name: String
+    -description: String
+}
+
+class PasswordEntity {
+    -serialVersionUID = 1L: long
+    -encryptedPassword: String
+}
+
+class UserEntity {
+    -serialVersionUID = 1L: long
+    -parent: UserEntity
+    -firstname: String
+    -lastname: String
+    -email: String
+    -validEmail: Boolean
+    -cellphone: String
+    -validCellphone: Boolean
+    -description: String
+    -photo: String
+}
+
+class TokenOwnerEntity {
+    -serialVersionUID = 1L: long
+    -user: UserEntity
+    -key: String
+    -subkeyUserCountLimit: Integer
+    -parentMustBeAccepted: Boolean
+    -activeRinging: Boolean
+    -activeBluetooth: Boolean
+    -activeNFC: Boolean
+    -accessVDI: Boolean
+}
+
+class SunEcityToken {
+    -parent: SunEcityToken;
+    -uuid: String
+    -tokenOwner: TokenOwnerEntity
+    -map: MapEntity
+    -locationExceptionMessage: String
+    -timeWindow: TimeWindowEntity 
+    -timeWindowExceptionMessage: String
+    -device: DeviceEntity
+    -action: AreaAction
+    -signalType: SignalType
+    -offline: Boolean
+}
+
+class MapEntity {
+    -serialVersionUID = 1L: long
+    -idUser: Long
+    -uuid: String
+    -name: String
+    -jsonStyle: String
+    -geojson: String  ** RFC 7946 **
+    -description: String
+}
+
+class DeviceEntity {
+    -serialVersionUID = 1L: long
+    -idUser: Long
+    -uuid: String
+    -name: String
+    -jsonStyle: String
+    -description: String
+}
+
+class TimeWindowEntity {
+    -name: String
+	-cronExpression: String
+    -description: String
+}
+
+enum AreaAction{
+    ENTERED,
+    EXITED,
+    WAS_INSIDE,
+    FIXED_TIME,
+}
+
+
+enum SignalType{
+    VDI,
+    RING,
+    DOOR_OPENER,
+    NOTOFICATION,
+}
+
+RelLoginGroupEntity "1..n" --> "1" GroupEntity
+RelLoginGroupEntity "1..n" --> "1" LoginEntity
+LoginEntity "1" --> "1" UserEntity
+LoginEntity "1" --> "1" PasswordEntity
+TokenOwnerEntity "1..n" --> "1" UserEntity
+SunEcityToken "1" *--> "1" MapEntity
+SunEcityToken "1" o--> "1" DeviceEntity
+SunEcityToken "1..n" --> "1" SunEcityToken
+SunEcityToken "1..n" --> "1" TokenOwnerEntity
+SunEcityToken "1" *--> "1" TimeWindowEntity
+SunEcityToken .-> AreaAction
+SunEcityToken .-> SignalType
 @enduml
