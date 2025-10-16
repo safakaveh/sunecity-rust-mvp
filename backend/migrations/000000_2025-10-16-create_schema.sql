@@ -1,0 +1,1 @@
+CREATE SCHEMA geo_time_token AUTHORIZATION "admin";

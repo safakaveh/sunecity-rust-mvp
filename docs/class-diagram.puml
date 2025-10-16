@@ -21,7 +21,7 @@ class GroupEntity {
 class PasswordEntity {
     -serialVersionUID = 1L: long
     -encryptedPassword: String
-}
+} 
 
 class UserEntity {
     -serialVersionUID = 1L: long
@@ -29,11 +29,11 @@ class UserEntity {
     -firstname: String
     -lastname: String
     -email: String
-    -validEmail: Boolean
+    -validatedEmail: Boolean
     -cellphone: String
-    -validCellphone: Boolean
+    -validatedCellphone: Boolean
     -description: String
-    -photo: String
+    -photo_external_id: Long
 }
 
 class TokenOwnerEntity {
@@ -42,10 +42,6 @@ class TokenOwnerEntity {
     -key: String
     -subkeyUserCountLimit: Integer
     -parentMustBeAccepted: Boolean
-    -activeRinging: Boolean
-    -activeBluetooth: Boolean
-    -activeNFC: Boolean
-    -accessVDI: Boolean
 }
 
 class SunEcityToken {
@@ -53,15 +49,15 @@ class SunEcityToken {
     -uuid: String
     -tokenOwner: TokenOwnerEntity
     -map: MapEntity
-    -locationExceptionMessage: String
+    -exceptionMessageLocation: String
     -timeWindow: TimeWindowEntity 
-    -timeWindowExceptionMessage: String
+    -exceptionMessageTimewindow: String
     -device: DeviceEntity
     -action: AreaAction
     -signalType: SignalType
     -offline: Boolean
 }
-
+ 
 class MapEntity {
     -serialVersionUID = 1L: long
     -idUser: Long
@@ -84,6 +80,20 @@ class DeviceEntity {
 class TimeWindowEntity {
     -name: String
 	-cronExpression: String
+    -description: String
+}
+
+class SignalPermissionEntity {
+    -tokenOwner: TokenOwnerEntity
+    -signal: SignalType
+	-permission: Boolean
+    -description: String
+}
+
+class AreaActionPermissionEntity {
+    -tokenOwner: TokenOwnerEntity
+    -action: AreaAction
+	-permission: Boolean
     -description: String
 }
 
@@ -111,7 +121,11 @@ SunEcityToken "1" *--> "1" MapEntity
 SunEcityToken "1" o--> "1" DeviceEntity
 SunEcityToken "1..n" --> "1" SunEcityToken
 SunEcityToken "1..n" --> "1" TokenOwnerEntity
+SignalPermissionEntity "1..n" --> "1" TokenOwnerEntity
+AreaActionPermissionEntity "1..n" --> "1" TokenOwnerEntity
 SunEcityToken "1" *--> "1" TimeWindowEntity
 SunEcityToken .-> AreaAction
 SunEcityToken .-> SignalType
+SignalPermissionEntity .-> SignalType
+AreaActionPermissionEntity .-> AreaAction
 @enduml

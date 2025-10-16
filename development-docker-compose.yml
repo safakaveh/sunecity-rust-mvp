@@ -73,18 +73,18 @@ services:
 
   db:
     image: postgis/postgis
-    container_name: postgis_db
+    container_name: sunecity-postgis
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: geo-token
+      POSTGRES_DB: sunecity
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: unless-stopped
-    networks:
-      - backend
+    #networks:
+    #  - backend
 
 volumes:
   pgdata:
