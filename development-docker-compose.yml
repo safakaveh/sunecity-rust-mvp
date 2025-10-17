@@ -83,8 +83,8 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: unless-stopped
-    #networks:
-    #  - backend
+    networks:
+      - backend
 
 volumes:
   pgdata:
