@@ -8,3 +8,12 @@ edition = "2024"
 
 [dependencies]
 sqlx = "0.8.6"
+dotenv = "0.15.0"
+# Pure Rust implementation of the Argon2 password hashing function.
+argon2 = "0.5.3"
+# Chrono aims to provide all functionality needed to do correct operations on dates and times in the proleptic Gregorian calendar
+chrono = { version = "0.4.42", features = ["serde"] }
+# A cron expression parser. Works with stable Rust v1.28.0.
+cron = "0.15.0"
+jsonwebtoken = "10.0.0"
+async-trait = "0.1.89"
